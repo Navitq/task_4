@@ -13,7 +13,7 @@ function SiteHeader(props) {
 			<header className='my-4'>
 				<Row>
 					<Col md="2" sm="2" xs="2" className='d-flex align-items-center d-none d-sm-flex' >
-						<Link className="navbar-brand" to="https://github.com/Navitq/4_task">
+						<Link className="navbar-brand" to="https://github.com/Navitq/task_4">
 							<Image src="./img/GitHub_Logo.png" height="28" className='me-3' />
 							GitHub
 						</Link>

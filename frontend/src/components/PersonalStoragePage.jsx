@@ -9,11 +9,12 @@ export default function StoragePageLinks(props) {
    return (
       <>
          <Nav.Item>
-            <NavLink to="/not-founded" className="nav-link">Log Out</NavLink>
+            <NavLink to="/admin"  className="nav-link">Admin</NavLink>
          </Nav.Item>
          <Nav.Item>
-            <NavLink to="/admin"  className="nav-link">Log Out</NavLink>
+            <NavLink to="/not-founded" className="nav-link">Log Out</NavLink>
          </Nav.Item>
+
 
          
       </>
