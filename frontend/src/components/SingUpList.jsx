@@ -1,4 +1,4 @@
-import React, {  useState, useEffect } from 'react'
+import React, {  useState } from 'react'
 
 
 import { Container } from 'react-bootstrap';
@@ -7,18 +7,7 @@ import Form from 'react-bootstrap/Form';
 
 export default function SignUpList(props) {
 
-	useEffect(() =>  {
-		fetch('/sign_up')
-		.then(response=>response.json())
-		.then((message)=>{
-			if(message.state == "redirect"){
-				props.redirectFun(true);
-				console.log(12223)
-			}
-		})
-
-		 
-	  });
+	
 
 	let [valueEmail, setValueEmail] = useState("");
 	let [valuePassWord, setValuePassWord] = useState("");

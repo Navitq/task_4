@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {  useState } from 'react'
 import { Link,NavLink } from "react-router-dom";
 
 import Nav from 'react-bootstrap/Nav';
@@ -8,6 +8,8 @@ import StoragePageLinks from "./PersonalStoragePage"
 import {Container, Row, Col, Image} from 'react-bootstrap';
 
 function SiteHeader(props) {
+	
+
 	return (
 		<Container >
 			<header className='my-4'>
@@ -23,8 +25,8 @@ function SiteHeader(props) {
 							<Nav.Item>
 								<NavLink to="/" className="nav-link">Main-page</NavLink>
 							</Nav.Item>
-							<AutorisationLinks></AutorisationLinks>
-							<StoragePageLinks></StoragePageLinks>
+							{props.changeHeader?null:<AutorisationLinks></AutorisationLinks>}
+							{props.changeHeader?<StoragePageLinks></StoragePageLinks>:null}
 						</Nav>
 					</Col>
 				</Row>

@@ -63,7 +63,6 @@ app.post('/sign_up', async (req, res) => {
 
 app.get('/sign_in', async (req, res) => { 
     if(session.auth){
-        console.log("112122")
         res.json({ state: 'redirect' })
     }
 })
@@ -71,7 +70,6 @@ app.get('/sign_in', async (req, res) => {
 app.get('/sign_up', async (req, res) => { 
     console.log(session.auth, 123123)
     if(session.auth){
-        console.log("112122")
         res.json({ state: 'redirect' })
         return
     }
@@ -80,7 +78,6 @@ app.get('/sign_up', async (req, res) => {
 
 app.post('/sign_in', async (req, res) => { 
     if(session.auth){
-        console.log("112122",session.auth)
         res.json({ state: 'redirect' })
         return;
     }

@@ -11,6 +11,18 @@ import AdminPage from "./AdminPage"
 
 export default class SiteMainContent extends Component {
 
+	componentDidMount(){
+		fetch('/sign_up')
+		.then(response=>response.json())
+		.then((message)=>{
+			if(message.state == "redirect"){
+				this.props.changeHeader(false)
+				this.redirectFun(true);
+			}
+		})
+	}
+
+
 	constructor(props) {
 		super(props);
 		this.state = {redirect:false};
@@ -19,8 +31,10 @@ export default class SiteMainContent extends Component {
 
 	redirectFun(newState){
 		console.log(12)
-		this.setState({redirect:newState})
+		this.props.changeHeader(newState)
+		this.setState({redirect:newState});
 	}
+
 
 	render() {
 		return (
