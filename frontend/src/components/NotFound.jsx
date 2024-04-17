@@ -6,7 +6,7 @@ export default class NotFound extends Component {
    render() {
       return (
          <Container>
-            <div class="h1 d-flex justify-content-center my-5 mb-3 text-warning" style={{textAlign:"center"}}>
+            <div className="h1 d-flex justify-content-center my-5 mb-3 text-warning" style={{textAlign:"center"}}>
                Page wasn't found 404
             </div>
             <div className='d-flex justify-content-center my-5 mb-0'>

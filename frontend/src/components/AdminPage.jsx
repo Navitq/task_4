@@ -8,7 +8,7 @@ export default function StoragePageLinks(props) {
     return (
         <>
             <Container>
-				<div class="h3 d-flex justify-content-center my-2 mb-3" style={{textAlign:"center"}}>
+				<div className="h3 d-flex justify-content-center my-2 mb-3" style={{textAlign:"center"}}>
 					Table with info about our users!
 				</div>
                 <Container className='d-flex justify-content-center mb-3'>
@@ -29,6 +29,7 @@ export default function StoragePageLinks(props) {
                             <th>Name</th>
                             <th>Reg. date</th>
                             <th>Last log in</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody >
@@ -41,6 +42,7 @@ export default function StoragePageLinks(props) {
                             <td>Name</td>
                             <td>Reg. date</td>
                             <td>Last log in</td>
+                            <th>Status</th>
                         </tr>
                     </tbody>
                 </Table>

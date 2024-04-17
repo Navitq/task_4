@@ -9,7 +9,7 @@ function TitleList() {
 	return (
 		
 		<Container>
-			<div class="h3 d-flex justify-content-center my-2 mb-3" style={{textAlign:"center"}}>
+			<div className="h3 d-flex justify-content-center my-2 mb-3" style={{textAlign:"center"}}>
 				A magical new way to manage your audience
 			</div>
 
@@ -59,7 +59,7 @@ function TitleList() {
 			
 			<Container className='d-flex justify-content-center mt-4'>
 				<Button variant="primary" size="lg" active width="fit-content">
-					<NavLink className="nav-link" to="/sing-up" >Try it for free</NavLink>
+					<NavLink className="nav-link" to="/sing_up" >Try it for free</NavLink>
 				</Button>
 			</Container>
 		</Container>
