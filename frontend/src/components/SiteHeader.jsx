@@ -25,8 +25,8 @@ function SiteHeader(props) {
 							<Nav.Item>
 								<NavLink to="/" className="nav-link">Main-page</NavLink>
 							</Nav.Item>
-							{props.changeHeader?null:<AutorisationLinks></AutorisationLinks>}
-							{props.changeHeader?<StoragePageLinks></StoragePageLinks>:null}
+							{props.headerState?null:<AutorisationLinks ></AutorisationLinks>}
+							{props.headerState?<StoragePageLinks changeHeader={props.changeHeader } ></StoragePageLinks>:null}
 						</Nav>
 					</Col>
 				</Row>

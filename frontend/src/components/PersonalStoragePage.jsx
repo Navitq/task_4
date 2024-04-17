@@ -6,17 +6,22 @@ import Nav from 'react-bootstrap/Nav';
 
 export default function StoragePageLinks(props) {
 
+   async function logOut(){
+      props.changeHeader(false)
+      await fetch("/log_out",{
+         method:"delete"
+      })
+      
+   }
+
    return (
       <>
          <Nav.Item>
             <NavLink to="/admin"  className="nav-link">Admin</NavLink>
          </Nav.Item>
          <Nav.Item>
-            <NavLink to="/not-founded" className="nav-link">Log Out</NavLink>
+            <div style={{cursor:"pointer"}} className="nav-link" onClick={logOut}>Log Out</div>
          </Nav.Item>
-
-
-         
       </>
    )
 }
