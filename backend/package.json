@@ -9,10 +9,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.20.2",
+    "cookie-parser": "^1.4.6",
     "express": "^4.19.2",
     "express-formidable": "^1.2.0",
     "express-session": "^1.18.0",
-    "pg": "^8.11.5"
+    "pg": "^8.11.5",
+    "session-memory-store": "^1.0.0",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"

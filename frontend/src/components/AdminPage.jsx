@@ -1,4 +1,4 @@
-import React, {  useState, useEffect } from 'react'
+import React, {  useState, useEffect, useRef } from 'react'
 import { Container, Table } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
@@ -8,25 +8,56 @@ import { v4 as uuidv4 } from 'uuid';
 export default function StoragePageLinks(props) {
 
     let [tableCnt,setTableCnt] = useState(null)
+    let [checkboxes, setCheckboxes] = useState(false);
+    let checkboxesRef = useRef([]);
+
+    function handleCheckboxChange(e){
+        for(let i =0;i < checkboxesRef.current.length;++i){
+            checkboxesRef.current[i].checked = !checkboxes;
+        }
+        setCheckboxes(!checkboxes)
+    }
+
+    async function sendData(e){
+        let emails = checkboxesRef.current.filter((value)=>{
+            if(value.checked){
+                return value.name;
+            }
+        })
+        let emailsParsed = emails.map((val)=>{return val.name})
+        let data = JSON.stringify(emailsParsed)
+        console.log(data)
+        console.log( e.target.dataset.method)
+
+        await fetch("/admin",{
+            method: e.target.dataset.method,
+            headers: new Headers({'content-type': 'application/json'}),
+
+            body: data
+        })
+        window.location.reload();
+    }
 
     useEffect(()=>{
         fetch("/admin")
         .then(response=>response.json())
         .then((mes)=>{
-            console.log(mes)
+            let checkboxName = {};
             let table = mes.map((el)=>{
-                let idCheckbox = uuidv4();
-                return <tr key={uuidv4()}>
+                let uid = uuidv4();
+                let row = <tr key={uuidv4()}>
                     <td className='d-flex justify-content-center' >
-                        <Form.Check type="switch" id={uuidv4()} data-id={idCheckbox}/>
+                        <Form.Check type="switch" name={el.email} ref={ref => checkboxesRef.current.push(ref) }  />
                     </td>
                     <td>{el.id}</td>
-                    <td id={idCheckbox}>{el.email}</td>
+                    <td >{el.email}</td>
                     <td>{el.name}</td>
                     <td>{el.regdate}</td>
                     <td>{el.lastvisit}</td>
                     <td>{el.status}</td>
                 </tr>
+                checkboxName[`${el.email}`] = false;
+                return row;
             })
             setTableCnt(table)
         })
@@ -40,9 +71,9 @@ export default function StoragePageLinks(props) {
 				</div>
                 <Container className='d-flex justify-content-center mb-3'>
                     <ButtonGroup aria-label="Toolbar">
-                        <Button variant="secondary">Block</Button>
-                        <Button variant="secondary">Unblock</Button>
-                        <Button variant="secondary">Delete</Button>
+                        <Button variant="secondary" onClick={sendData} data-method="PUT">Block</Button>
+                        <Button variant="secondary" onClick={sendData} data-method="PATCH">Unblock</Button>
+                        <Button variant="secondary" onClick={sendData} data-method="DELETE">Delete</Button>
                     </ButtonGroup>
                 </Container>
                 <Container  className='overflow-auto'>
@@ -50,7 +81,7 @@ export default function StoragePageLinks(props) {
                         <thead>
                             <tr >
                                 <th className='d-flex justify-content-center'>
-                                    <Form.Check type="switch" id="main-switcher"/>
+                                    <Form.Check type="switch" name="main-switcher" id="main-switcher" checked={checkboxes}  onChange={handleCheckboxChange}/>
                                 </th>
                                 <th >id</th>
                                 <th>E-mail</th>
