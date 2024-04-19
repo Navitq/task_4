@@ -18,6 +18,8 @@ export default class SiteMainContent extends Component {
 			if(message.state == "redirect"){
 				this.props.changeHeader(false)
 			}
+		}).catch(()=>{
+			return;
 		})
 	}
 

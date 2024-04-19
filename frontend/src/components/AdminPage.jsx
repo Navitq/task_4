@@ -59,7 +59,7 @@ export default function StoragePageLinks(props) {
                 return row;
             })
             setTableCnt(table)
-        })
+        }).catch(()=>{return;})
     },[])
 
     return (

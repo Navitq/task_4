@@ -10,7 +10,7 @@ import Footer from "./Footer"
 export default function MainPage() {
     let [headerState, setHeaderState] = useState(false);
     useEffect(() => {
-        fetch("/sign_up").then(res=>res.json()).then((mes)=>{if(mes.state=="redirect")changeHeader(true)})
+        fetch("/sign_up").then(res=>res.json()).then((mes)=>{if(mes.state=="redirect")changeHeader(true)}).catch(()=>{return;})
       }, []);
     function changeHeader(state){
         setHeaderState(()=>{return state})
