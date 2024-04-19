@@ -10,25 +10,23 @@ const bodyParser = require('body-parser');
 const app = express(); 
 const port = process.env.PORT||4000; 
 
-app.listen(port, () => console.log(`Listening on port ${port}`)); 
+app.listen(port, () => console.error(`Listening on port ${port}`)); 
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(cookieParser("secret"));
 
 
 app.use(session({
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     secret:"secret",
    
   }));
 
     async function setNewSession(req){
         try {
-            const result = await db.query(`
-            UPDATE clienthttpdata SET session = '${req.session.id}'  WHERE email = '${req.session.email}'
-            `);
+            await db.query(`UPDATE clienthttpdata SET session='${req.session.id}'  WHERE email ='${req.fields.email}'`);
             
             } catch (err) {
                 console.error(err);
@@ -49,6 +47,14 @@ app.use(session({
                 res.status(500).send('Internal Server Error');
                 return;
             }
+    }
+
+    let oadScriptPromise = async function(req,result) {
+        return new Promise((resolve, reject) => {
+            req.sessionStore.destroy( result.rows[0].session, (err, script) => {
+                if (err) reject(err)
+                else resolve(script);
+            })})
     }
 
 app.post('/sign_up',formidable(), async (req, res) => {
@@ -88,8 +94,7 @@ app.post('/sign_up',formidable(), async (req, res) => {
             es.status(500).send('Internal Server Error');
         }
         try {
-            const result = await db.query(`
-            INSERT INTO clientHTTPData(session,email, name, password, status, lastVisit , regDate) VALUES (' ${req.session.id}','${req.fields.email}','${req.fields.name}','${req.fields.password}', 'unblock', '${(new Date()).toLocaleDateString('ru-RU', {year: 'numeric',month: '2-digit',day: '2-digit'})}','${(new Date()).toLocaleDateString('ru-RU', {year: 'numeric',month: '2-digit',day: '2-digit'})}')`);
+            const result = await db.query(`INSERT INTO clientHTTPData(session, email, name, password, status, lastVisit , regDate) VALUES ('${req.session.id}','${req.fields.email}','${req.fields.name}','${req.fields.password}', 'unblock', '${(new Date()).toLocaleDateString('ru-RU', {year: 'numeric',month: '2-digit',day: '2-digit'})}','${(new Date()).toLocaleDateString('ru-RU', {year: 'numeric',month: '2-digit',day: '2-digit'})}')`);
             req.session.auth = true;
             req.session.email = req.fields.email;
 
@@ -117,7 +122,6 @@ app.get('/sign_up', async (req, res) => {
 })
 
 app.delete('/log_out', async (req, res) => { 
-        console.log("well done")
         delete req.session.auth;
         req.session.destroy();
 })
@@ -156,12 +160,13 @@ app.get('/admin', async (req, res) => {
         const result = await db.query(`SELECT id, regdate, email, name, lastvisit, status from clientHTTPData`);
         res.json(result.rows);
     } catch (err) {
-        console.log(123123213231)
         console.error(err);
         res.status(500).send('Internal Server Error');
         return;
     }
 }); 
+
+
 
 
 
@@ -174,9 +179,13 @@ app.delete('/admin',bodyParser.json(), async (req, res) => {
     for(let i = 0;i<deletedUsers.length;++i){
         try {
             let result = await db.query(`SELECT session from clientHTTPData WHERE email='${deletedUsers[i]}'`);
-            await req.sessionStore.destroy(result.rows[0].session, (error) => {console.log(error)});
+         
 
-            await db.query(`DELETE FROM clientHTTPData WHERE email='${deletedUsers[i]}'`);
+            
+            await oadScriptPromise(req,result)
+            await db.query(`DELETE FROM clientHTTPData WHERE email = '${deletedUsers[i]}'`);
+
+
         } catch (err) {
             console.error(err);
             res.status(500).send('Internal Server Error');
@@ -195,11 +204,9 @@ app.put('/admin',bodyParser.json(), async (req, res) => {
 
     for(let i = 0;i<blockedUsers.length;++i){
         let blockedUsers = req.body;
-        console.log(blockedUsers,123)
         try {
             let result = await db.query(`SELECT session from clientHTTPData WHERE email ='${blockedUsers[i]}'`);
-            console.log(result)
-            await req.sessionStore.destroy(result.rows[0].session, (error) => {console.log(error)});
+            await oadScriptPromise(req,result)
             await db.query(`UPDATE clienthttpdata SET status='block'  WHERE email='${blockedUsers[i]}'`);
             
         } catch (err) {

@@ -19,9 +19,7 @@ export default function SignUpList(props) {
 			method:"post",
 			body: new FormData(e.currentTarget)
 		});
-		console.log(response)
 		let message = await response.json();
-		console.log(message)
 		if(message.state == "redirect"){
 			props.redirectFun(true);
 		} 

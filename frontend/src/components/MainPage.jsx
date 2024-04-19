@@ -14,7 +14,6 @@ export default function MainPage() {
       }, []);
     function changeHeader(state){
         setHeaderState(()=>{return state})
-        console.log(headerState)
     }
     return(
         <Container  style={{minHeight:"100%", display:"flex", flexDirection:"column"}}>

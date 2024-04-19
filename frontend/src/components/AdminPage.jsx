@@ -26,8 +26,7 @@ export default function StoragePageLinks(props) {
         })
         let emailsParsed = emails.map((val)=>{return val.name})
         let data = JSON.stringify(emailsParsed)
-        console.log(data)
-        console.log( e.target.dataset.method)
+
 
         await fetch("/admin",{
             method: e.target.dataset.method,

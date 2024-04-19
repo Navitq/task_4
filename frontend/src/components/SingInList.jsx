@@ -25,9 +25,7 @@ export class SignInList extends Component {
 			method:"post",
 			body: new FormData(e.currentTarget)
 		});
-		console.log(response)
 		let message = await response.json();
-		console.log(message.state)
 		if(message.state == "redirect"){
 			this.props.redirectFun(true);
 		} 
