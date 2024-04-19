@@ -40,6 +40,7 @@ export default function StoragePageLinks(props) {
     useEffect(()=>{
         fetch("/admin")
         .then(response=>response.json())
+        .catch(()=>{return;})
         .then((mes)=>{
             let checkboxName = {};
             let table = mes.map((el)=>{
@@ -59,7 +60,8 @@ export default function StoragePageLinks(props) {
                 return row;
             })
             setTableCnt(table)
-        }).catch(()=>{return;})
+        })
+
     },[])
 
     return (
